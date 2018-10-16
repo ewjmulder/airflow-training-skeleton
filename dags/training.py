@@ -3,10 +3,11 @@ import datetime as dt
 from airflow import DAG
 from godatadriven.operators.postgres_to_gcs import PostgresToGoogleCloudStorageOperator
 from airflow.contrib.operators.dataproc_operator import (
-  DataprocClusterCreateOperator,
-  DataprocClusterDeleteOperator,
-  DataProcPySparkOperator
+    DataprocClusterCreateOperator,
+    DataprocClusterDeleteOperator,
+    DataProcPySparkOperator
 )
+from airflow.utils.trigger_rule import TriggerRule
 
 dag = DAG(
     dag_id="training_dag",
@@ -41,3 +42,19 @@ dataproc_create_cluster = DataprocClusterCreateOperator(
 
 copy_task >> dataproc_create_cluster
 
+compute_aggregates = DataProcPySparkOperator(
+    task_id="compute_aggregates",
+    main="gs://gdd-training/build-statictics.py",
+    cluster_name="training_cluster",
+    arguments="",
+    dag=dag
+)
+
+dataproc_create_cluster >> compute_aggregates
+
+dataproc_delete_cluster = DataprocClusterDeleteOperator(
+    task_id="delete_cluster",
+    cluster_name="training_cluster",
+    project="airflowbolcom-1d3b3a0049ce78da",
+    dag=dag
+)
