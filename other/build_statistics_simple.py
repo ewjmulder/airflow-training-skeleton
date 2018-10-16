@@ -39,6 +39,7 @@ spark.read.json(
 aggregation = spark.sql(
     """
     SELECT
+        CAST(CAST(transfer_date AS timestamp) AS date) transfer_date,
         county,
         district,
         city,
@@ -46,6 +47,7 @@ aggregation = spark.sql(
     FROM
         land_registry_price_paid_uk
     GROUP BY
+        transfer_date,
         county,
         district,
         city
