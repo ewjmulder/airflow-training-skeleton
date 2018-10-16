@@ -44,7 +44,7 @@ copy_task >> dataproc_create_cluster
 
 compute_aggregates = DataProcPySparkOperator(
     task_id="compute_aggregates",
-    main="gs://gdd-training/build-statictics.py",
+    main="gs://gdd-training-bucket/build_statistics.py",
     cluster_name="training_cluster",
     arguments="",
     dag=dag
