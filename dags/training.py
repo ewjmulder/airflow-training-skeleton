@@ -2,7 +2,11 @@ import datetime as dt
 
 from airflow import DAG
 from godatadriven.operators.postgres_to_gcs import PostgresToGoogleCloudStorageOperator
-
+from airflow.contrib.operators.dataproc_operator import (
+  DataprocClusterCreateOperator,
+  DataprocClusterDeleteOperator,
+  DataProcPySparkOperator
+)
 
 dag = DAG(
     dag_id="training_dag",
@@ -25,3 +29,15 @@ copy_task = PostgresToGoogleCloudStorageOperator(
     filename="exports/{{ ds }}/land_registry_price.json",
     dag=dag
 )
+
+dataproc_create_cluster = DataprocClusterCreateOperator(
+    task_id="create_cluster",
+    cluster_name="training_cluster",
+    project="airflowbolcom-1d3b3a0049ce78da",
+    num_workers=2,
+    zone="europe-west1",
+    dag=dag
+)
+
+copy_task >> dataproc_create_cluster
+
