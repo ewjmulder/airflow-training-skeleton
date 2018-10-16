@@ -46,10 +46,7 @@ aggregation = spark.sql(
         price
     FROM
         land_registry_price_paid_uk
-    WHERE
-        transfer_date = '{}'
     GROUP BY
-        transfer_date,
         county,
         district,
         city
