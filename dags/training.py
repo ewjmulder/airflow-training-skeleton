@@ -33,7 +33,7 @@ copy_task = PostgresToGoogleCloudStorageOperator(
 
 dataproc_create_cluster = DataprocClusterCreateOperator(
     task_id="create_cluster",
-    cluster_name="training_cluster",
+    cluster_name="analyse-pricing-{{ ds }}",
     project_id="airflowbolcom-1d3b3a0049ce78da",
     num_workers=2,
     zone="europe-west1",
@@ -45,8 +45,8 @@ copy_task >> dataproc_create_cluster
 compute_aggregates = DataProcPySparkOperator(
     task_id="compute_aggregates",
     main="gs://gdd-training-bucket/build_statistics.py",
-    cluster_name="training_cluster",
-    arguments="",
+    cluster_name="analyse-pricing-{{ ds }}",
+    arguments=["{{ ds }}"],
     dag=dag
 )
 
@@ -54,7 +54,7 @@ dataproc_create_cluster >> compute_aggregates
 
 dataproc_delete_cluster = DataprocClusterDeleteOperator(
     task_id="delete_cluster",
-    cluster_name="training_cluster",
+    cluster_name="analyse-pricing-{{ ds }}",
     project_id="airflowbolcom-1d3b3a0049ce78da",
     trigger_rule=TriggerRule.ALL_DONE,
     dag=dag
