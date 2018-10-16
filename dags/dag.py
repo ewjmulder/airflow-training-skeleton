@@ -5,7 +5,7 @@ from airflow.operators.python_operator import PythonOperator
 
 
 dag = DAG(
-    dag_id="my_first_dag_renamed",
+    dag_id="my_first_dag",
     schedule_interval="30 7 * * *",
     default_args={
         "owner": "airflow",
