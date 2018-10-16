@@ -34,7 +34,7 @@ copy_task = PostgresToGoogleCloudStorageOperator(
 dataproc_create_cluster = DataprocClusterCreateOperator(
     task_id="create_cluster",
     cluster_name="training_cluster",
-    project="airflowbolcom-1d3b3a0049ce78da",
+    project_id="airflowbolcom-1d3b3a0049ce78da",
     num_workers=2,
     zone="europe-west1",
     dag=dag
@@ -55,6 +55,9 @@ dataproc_create_cluster >> compute_aggregates
 dataproc_delete_cluster = DataprocClusterDeleteOperator(
     task_id="delete_cluster",
     cluster_name="training_cluster",
-    project="airflowbolcom-1d3b3a0049ce78da",
+    project_id="airflowbolcom-1d3b3a0049ce78da",
+    trigger_rule="trigger",
     dag=dag
 )
+
+compute_aggregates >> dataproc_delete_cluster
