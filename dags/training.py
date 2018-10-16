@@ -66,10 +66,10 @@ compute_aggregates >> dataproc_delete_cluster
 gcs_to_bq = GoogleCloudStorageToBigQueryOperator(
     task_id="bcs_to_bq",
     bucket="airflow-training",
-    source_objects="average_prices/{{ ds }}/transfer_date={{ ds }}/*",
-    destination_project_dataset_table="airflowbolcom-1d3b3a0049ce78da.airflowtraining.avgprices",
+    source_objects="average_prices/{{ ds }}/transfer_date={{ ds }}/",
+    destination_project_dataset_table="airflowbolcom-1d3b3a0049ce78da.airflowtraining.avgprices_{{ ds }}",
     source_format="parquet",
-    write_disposition="overwrite",
+    write_disposition="WRITE_TRUNCATE",
     dag=dag
 )
 
