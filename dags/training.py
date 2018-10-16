@@ -23,6 +23,6 @@ copy_task = PostgresToGoogleCloudStorageOperator(
     postgres_conn_id="training_postgres",
     sql="SELECT * FROM land_registry_price_paid_uk WHERE transfer_date = '{{ ds }}'",
     bucket="airflow-training",
-    filename="export-{{ ds }}",
+    filename="exports/{{ ds }}/land_registry_price.json",
     dag=dag
 )
