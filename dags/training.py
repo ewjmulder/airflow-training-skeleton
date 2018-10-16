@@ -56,7 +56,7 @@ dataproc_delete_cluster = DataprocClusterDeleteOperator(
     task_id="delete_cluster",
     cluster_name="training_cluster",
     project_id="airflowbolcom-1d3b3a0049ce78da",
-    trigger_rule="trigger",
+    trigger_rule=TriggerRule.ALL_DONE,
     dag=dag
 )
 
