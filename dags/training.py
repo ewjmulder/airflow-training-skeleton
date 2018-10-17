@@ -79,13 +79,6 @@ gcs_to_bq = GoogleCloudStorageToBigQueryOperator(
 
 dataproc_delete_cluster >> gcs_to_bq
 
-http_to_gcs = HttpToGcsOperator(
-    task_id="http_to_gcs",
-    http_conn_id="currency_converter",
-    endpoint="airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=EUR",
-    dag=dag
-)
-
 
 class HttpToGcsOperator(BaseOperator):
     """
@@ -125,3 +118,13 @@ class HttpToGcsOperator(BaseOperator):
         gcs = GoogleCloudStorageHook()
         gcs.upload(bucket=self.gcs_path, object=self.gcs_path,
                    filename="/tmp/response", mime_type="application/json")
+
+
+http_to_gcs = HttpToGcsOperator(
+    task_id="http_to_gcs",
+    http_conn_id="currency_converter",
+    endpoint="airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=EUR",
+    dag=dag
+)
+
+
