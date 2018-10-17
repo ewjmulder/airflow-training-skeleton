@@ -21,7 +21,7 @@ options = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
 
 def return_current_day(**context):
-    return options.__getitem__(context["execution_date"].weekday() - 1)
+    return options.__getitem__(context["execution_date"].weekday())
 
 
 branching = BranchPythonOperator(
