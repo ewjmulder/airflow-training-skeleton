@@ -9,6 +9,7 @@ from airflow.contrib.operators.dataproc_operator import (
     DataProcPySparkOperator
 )
 from airflow.utils.trigger_rule import TriggerRule
+from other import HttpToGcsOperator
 
 dag = DAG(
     dag_id="training_dag",
@@ -74,3 +75,10 @@ gcs_to_bq = GoogleCloudStorageToBigQueryOperator(
 )
 
 dataproc_delete_cluster >> gcs_to_bq
+
+http_to_gcs = HttpToGcsOperator(
+    task_id="http_to_gcs",
+    http_conn_id="currency_converter",
+    endpoint="airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=EUR",
+    dag=dag
+)
