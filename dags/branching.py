@@ -18,7 +18,7 @@ dag = DAG(
 cmd = 'ls -l'
 run_this_first = DummyOperator(task_id='run_this_first', dag=dag)
 
-options = ['branch_a', 'branch_b', 'branch_c', 'branch_d']
+options = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
 branching = BranchPythonOperator(
     task_id='branching',
