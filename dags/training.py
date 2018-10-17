@@ -142,17 +142,14 @@ http_to_gcs_usd = HttpToGcsOperator(
 load_into_bigquery = DataFlowPythonOperator(
     task_id="load_into_bigquery",
     dataflow_default_options={
-
+        "input": "currency-exchange/{{ ds }}/eur/gbptoeur.json",
+        "table": "currency_rates",
+        "dataset": "airflowtraining",
+        "project": "airflowbolcom-1d3b3a0049ce78da",
+        "bucket": "airflow-training",
+        "name": "currency_job_{{ ds_nodash }}"
     },
     py_file="gs://airflow-training-data/dataflow_job.py",
-    py_options=[
-        "--input", "currency-exchange/{{ ds }}/eur/gbptoeur.json",
-        "--table", "currency_rates",
-        "--dataset", "airflowtraining",
-        "--project", "airflowbolcom-1d3b3a0049ce78da",
-        "--bucket", "airflow-training",
-        "--name", "currency_job_{{ ds_nodash }}"
-    ],
     dag=dag
 )
 
