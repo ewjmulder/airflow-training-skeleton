@@ -94,7 +94,7 @@ class HttpToGcsOperator(BaseOperator):
     """
 
     template_fields = ('endpoint', 'gcs_path')
-    template_ext = ('.json',)
+    template_ext = ()
     ui_color = '#f4a460'
 
     @apply_defaults
