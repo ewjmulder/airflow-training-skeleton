@@ -40,4 +40,5 @@ class HttpToGcsOperator(BaseOperator):
         text_file.close()
 
         gcs = GoogleCloudStorageHook()
-        gcs.upload(bucket=self.gcs_path, object=self.gcs_path, filename="/tmp/response", mime_type="application/json")
+        gcs.upload(bucket=self.gcs_path, object=self.gcs_path,
+                   filename="/tmp/response", mime_type="application/json")
