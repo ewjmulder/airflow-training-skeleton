@@ -3,11 +3,12 @@ from airflow.operators.python_operator import BranchPythonOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.models import DAG
 import random
+import datetime
 
 
 args = {
     'owner': 'airflow',
-    'start_date': airflow.utils.dates.days_ago(2)
+    'start_date': airflow.utils.dates.days_ago(12)
 }
 
 dag = DAG(
@@ -20,9 +21,15 @@ run_this_first = DummyOperator(task_id='run_this_first', dag=dag)
 
 options = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
+
+def return_current_day(context):
+    return options.__getitem__(context["execution_date"].weekday() - 1)
+
+
 branching = BranchPythonOperator(
     task_id='branching',
-    python_callable=lambda: random.choice(options),
+    python_callable=return_current_day,
+    provide_context=True,
     dag=dag)
 branching.set_upstream(run_this_first)
 
@@ -35,6 +42,4 @@ join = DummyOperator(
 for option in options:
     t = DummyOperator(task_id=option, dag=dag)
     t.set_upstream(branching)
-    dummy_follow = DummyOperator(task_id='follow_' + option, dag=dag)
-    t.set_downstream(dummy_follow)
-    dummy_follow.set_downstream(join)
+    t.set_downstream(join)
