@@ -126,7 +126,7 @@ http_to_gcs_eur = HttpToGcsOperator(
     task_id="http_to_gcs_eur",
     http_conn_id="currency_converter",
     endpoint="/airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=EUR",
-    gcs_path="currency-exchange/{{ ds }}/eur/gbp-to-eur.json",
+    gcs_path="currency-exchange/{{ ds }}/eur/gbptoeur.json",
     dag=dag
 )
 
@@ -134,6 +134,6 @@ http_to_gcs_usd = HttpToGcsOperator(
     task_id="http_to_gcs_usd",
     http_conn_id="currency_converter",
     endpoint="/airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=USD",
-    gcs_path="currency-exchange/{{ ds }}/usd/gbp-to-usd.json",
+    gcs_path="currency-exchange/{{ ds }}/usd/gbptousd.json",
     dag=dag
 )
