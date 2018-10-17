@@ -38,4 +38,3 @@ for option in options:
     dummy_follow = DummyOperator(task_id='follow_' + option, dag=dag)
     t.set_downstream(dummy_follow)
     dummy_follow.set_downstream(join)
-    
