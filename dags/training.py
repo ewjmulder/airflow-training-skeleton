@@ -92,7 +92,7 @@ class HttpToGcsOperator(BaseOperator):
     :type gcs_path: string
     """
 
-    template_fields = ('date',)
+    template_fields = ('endpoint', 'gcs_path')
     template_ext = ('.json',)
     ui_color = '#f4a460'
 
