@@ -116,7 +116,7 @@ class HttpToGcsOperator(BaseOperator):
         text_file.close()
 
         gcs = GoogleCloudStorageHook()
-        gcs.upload(bucket=self.gcs_path, object=self.gcs_path,
+        gcs.upload(bucket="airflow-training", object=self.gcs_path,
                    filename="/tmp/response", mime_type="application/json")
 
 
@@ -124,6 +124,6 @@ http_to_gcs = HttpToGcsOperator(
     task_id="http_to_gcs",
     http_conn_id="currency_converter",
     endpoint="airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=EUR",
-    gcs_path="gs://airflow-training/currency-exchange/{{ ds }}/",
+    gcs_path="currency-exchange/{{ ds }}/",
     dag=dag
 )
