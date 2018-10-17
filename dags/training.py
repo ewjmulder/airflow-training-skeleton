@@ -142,6 +142,7 @@ http_to_gcs_usd = HttpToGcsOperator(
 load_into_bigquery = DataFlowPythonOperator(
     task_id="load_into_bigquery",
     dataflow_default_options={
+        "region": "europe-west1",
         "input": "currency-exchange/{{ ds }}/eur/gbptoeur.json",
         "table": "currency_rates",
         "dataset": "airflowtraining",
