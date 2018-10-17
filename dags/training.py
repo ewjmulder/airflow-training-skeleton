@@ -156,3 +156,5 @@ load_into_bigquery = DataFlowPythonOperator(
     dag=dag
 )
 
+http_to_gcs_eur >> load_into_bigquery
+http_to_gcs_usd >> load_into_bigquery
