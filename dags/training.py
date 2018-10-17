@@ -113,14 +113,13 @@ class HttpToGcsOperator(BaseOperator):
         response = http.run(self.endpoint)
         print("HTTP response: " + response.text)
 
-        tmp_file = tempfile.mktemp()
-        text_file = open(tmp_file, "w")
-        text_file.write(response.text)
-        text_file.close()
+        with tempfile.TemporaryFile() as tmp_file:
+            tmp_file.write(response.content)
+            tmp_file.flush()
 
         gcs = GoogleCloudStorageHook()
         gcs.upload(bucket="airflow-training", object=self.gcs_path,
-                   filename=tmp_file, mime_type="application/json")
+                   filename=tmp_file.name, mime_type="application/json")
 
 
 http_to_gcs = HttpToGcsOperator(
