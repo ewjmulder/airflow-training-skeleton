@@ -14,6 +14,7 @@ from airflow.hooks.http_hook import HttpHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
+from airflow.contrib.operators.dataflow_operator import DataFlowPythonOperator
 
 dag = DAG(
     dag_id="training_dag",
@@ -137,3 +138,21 @@ http_to_gcs_usd = HttpToGcsOperator(
     gcs_path="currency-exchange/{{ ds }}/usd/gbptousd.json",
     dag=dag
 )
+
+load_into_bigquery = DataFlowPythonOperator(
+    task_id="load_into_bigquery",
+    dataflow_default_options={
+
+    },
+    py_file="gs://airflow-training-data/dataflow_job.py",
+    py_options=[
+        "--input", "currency-exchange/{{ ds }}/eur/gbptoeur.json",
+        "--table", "currency_rates",
+        "--dataset", "airflowtraining",
+        "--project", "airflowbolcom-1d3b3a0049ce78da",
+        "--bucket", "airflow-training",
+        "--name", "currency_job_{{ ds_nodash }}"
+    ],
+    dag=dag
+)
+
