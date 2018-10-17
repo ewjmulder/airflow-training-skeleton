@@ -126,5 +126,3 @@ http_to_gcs = HttpToGcsOperator(
     endpoint="airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=EUR",
     dag=dag
 )
-
-
