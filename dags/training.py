@@ -123,7 +123,7 @@ class HttpToGcsOperator(BaseOperator):
 http_to_gcs = HttpToGcsOperator(
     task_id="http_to_gcs",
     http_conn_id="currency_converter",
-    endpoint="airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=EUR",
+    endpoint="/airflow-training-transform-valutas?date={{ ds }}&from=GBP&to=EUR",
     gcs_path="currency-exchange/{{ ds }}/",
     dag=dag
 )
