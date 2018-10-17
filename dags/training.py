@@ -114,7 +114,7 @@ class HttpToGcsOperator(BaseOperator):
         print("HTTP response: " + response.text)
 
         text_file = tempfile.TemporaryFile()
-        text_file.write(response.text)
+        text_file.write_text(response.text)
         text_file.close()
 
         gcs = GoogleCloudStorageHook()
