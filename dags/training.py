@@ -117,9 +117,9 @@ class HttpToGcsOperator(BaseOperator):
             tmp_file.write(response.content)
             tmp_file.flush()
 
-        gcs = GoogleCloudStorageHook()
-        gcs.upload(bucket="airflow-training", object=self.gcs_path,
-                   filename=tmp_file.name, mime_type="application/json")
+            gcs = GoogleCloudStorageHook()
+            gcs.upload(bucket="airflow-training", object=self.gcs_path,
+                       filename=tmp_file.name, mime_type="application/json")
 
 
 http_to_gcs = HttpToGcsOperator(
