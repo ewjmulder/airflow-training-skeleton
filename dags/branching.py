@@ -20,7 +20,7 @@ run_this_first = DummyOperator(task_id='run_this_first', dag=dag)
 options = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
 
-def return_current_day(context):
+def return_current_day(context, **kwargs):
     return options.__getitem__(context["execution_date"].weekday() - 1)
 
 
