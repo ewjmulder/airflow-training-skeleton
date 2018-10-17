@@ -2,8 +2,6 @@ import airflow
 from airflow.operators.python_operator import BranchPythonOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.models import DAG
-import random
-import datetime
 
 
 args = {
