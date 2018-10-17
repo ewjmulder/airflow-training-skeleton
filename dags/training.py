@@ -1,4 +1,5 @@
 import datetime as dt
+import tempfile
 
 from airflow import DAG
 from godatadriven.operators.postgres_to_gcs import PostgresToGoogleCloudStorageOperator
@@ -110,8 +111,9 @@ class HttpToGcsOperator(BaseOperator):
     def execute(self, context):
         http = HttpHook(method='GET', http_conn_id=self.http_conn_id)
         response = http.run(self.endpoint)
+        print("HTTP response: " + response.text)
 
-        text_file = open("/tmp/response", "w")
+        text_file = tempfile.TemporaryFile()
         text_file.write(response.text)
         text_file.close()
 
